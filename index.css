@@ -1,0 +1,35 @@
+body {
+    background-color: rgb(31, 31, 31);
+    color:aliceblue;
+    font-family: sans-serif;
+    font-family: monospace;
+    text-align: center;
+    font-size: 2rem;
+}
+
+#content {
+    /* border: 1px solid red; */
+    width: 30%;
+    margin: auto;
+}
+
+#input {
+    height: 25px;
+    background-color:aliceblue;
+    color: rgb(31, 31, 31);
+    font-family: sans-serif;
+    font-family: monospace;
+    font-weight: 700;
+    font-size: large;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.control {
+    background-color:aliceblue;
+    color: rgb(31, 31, 31);
+    font-family: sans-serif;
+    font-family: monospace;
+    font-weight: 700;
+    border-radius: 5px;
+}
