@@ -43,5 +43,15 @@ puzzles = [
         new Word("direct", 1, 2, 5, "this and the above are synonymous but not interchangeable."),
         new Word("straight", 2, 1, 3, "a <the above> line is this."),
         new Word("linear", 2, 4, -1, "")
+    ],
+    [
+        new Word("phone", 0, -1, 3, ""),
+        new Word("ring", 1, 2, 1, "an onomatopoeia for the above."),
+        new Word("diamond", 0, 1, 2, "a nice one of the above might have one of these."),
+        new Word("carbon", 0, 1, 4, "what is the above made out of?"),
+        new Word("copy", 0, 1, 2, "email?"),
+        new Word("paste", 1, 0, 3, "if the above is step one, this is step two."),
+        new Word("mixture", 0, 3, -1, "")
+
     ]
 ]

@@ -5,7 +5,7 @@ const pos = ["noun", "verb", "adjective", "adverb"];
 numWordsEntered = 0;
 hintbutton = document.getElementById("hintbutton");
 
-let game = new Game(puzzles[0]);
+let game = new Game(puzzles[Math.floor(Math.random() * puzzles.length)]);
 
 function updateGoal() {
     var g = document.getElementById("goal");
