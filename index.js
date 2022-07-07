@@ -1,11 +1,13 @@
 
 const colors = ["red", "orange", "yellow", "green", "blue", "purple"]
+const pos = ["noun", "verb", "adjective", "adverb"];
 
 numWordsEntered = 0;
 
 class Word {
-    constructor(word, prev, next) {
+    constructor(word, pos, prev, next) {
         this.word = word;
+        this.pos = pos;
         this.prev = prev;
         this.next = next;
     }
@@ -14,13 +16,20 @@ class Word {
 class Game {
     constructor() {
         this.words = [
-            new Word("award", -1, 1),
-            new Word("winner", 0, 4),
-            new Word("hero", 1, 0),
-            new Word("sandwich", 7, 1),
-            new Word("bread", 3, 0),
-            new Word("baker", 0, 3),
-            new Word("oven", 2, -1)
+            // new Word("award", 0, -1, 1),
+            // new Word("winner", 0, 0, 4),
+            // new Word("hero", 0, 1, 0),
+            // new Word("sandwich", 0, 7, 1),
+            // new Word("bread", 0, 3, 0),
+            // new Word("baker", 0, 0, 3),
+            // new Word("oven", 0, 2, -1)
+            new Word("mouse", 0, -1, 1),
+            new Word("scroll", 1, 3, 2),
+            new Word("paper", 0, 4, 3),
+            new Word("essay", 0, 0, 2),
+            new Word("school", 0, 0, 1),
+            new Word("class", 0, 0, 2),
+            new Word("teach", 1, 2, -1)
         ];
     }
     getWords() {
@@ -29,14 +38,6 @@ class Game {
 }
 
 let game = new Game();
-
-function sleep(milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-      currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
-}
 
 function updateGoal() {
     var g = document.getElementById("goal");
@@ -54,6 +55,11 @@ function recolorTitle() {
     for (var i = numWordsEntered - 1; i < 6; i++) {
         titleLetters[i].style.color = "aliceblue";
     }
+}
+
+function updateInfo() {
+    info = document.getElementById("info");
+    info.innerHTML = game.getWords()[numWordsEntered].word.length + " letter " + pos[game.getWords()[numWordsEntered].pos];
 }
 
 function hasWon() {
@@ -97,28 +103,22 @@ function add(word) {
         l.textContent = word[i];
         w.appendChild(l);
     }
-    //w.textContent = word;
     list.appendChild(w)
 }
 
 function deleteWord() {
     list = document.getElementById("wordList").children
     if (list.length > 1) {
-        list[list.length - 1].remove()
+        list[list.length - 1].remove();
+        updateInfo();
     }
 }
 
-// function to print next word ▢W▢▢▢
+// function to print stem for next word
 function printNextWord() {
     if (numWordsEntered < 7) {
         list = document.getElementById("wordList");
         const w = document.createElement("h3");
-        //numWords = list.children.length;
-        // if (numWords == 7) {
-        //     let tb = document.getElementById("input");
-        //     tb.placeholder = "";
-        //     return;
-        // }
         prev = game.getWords()[numWordsEntered].prev;
         lenOfWord = game.getWords()[numWordsEntered].word.length;
         prevWord = document.getElementById("wordList").lastChild.cloneNode(true);
@@ -132,18 +132,17 @@ function printNextWord() {
             }
         }
         list.appendChild(w);
+        updateInfo();
     } else {
         // all words have been entered, time to see if correct
         if (hasWon()) {
-            alert("winner!");
+            info = document.getElementById("info");
+            info.innerHTML = "correctly linked!";
         } else {
-            alert("try again.")
+            info = document.getElementById("info");
+            info.innerHTML = "a link is wrong, try again.";
         }
     }
-
-    //set placeholder of textbox to len of word
-    // let tb = document.getElementById("input");
-    // tb.placeholder = lenOfWord + " letters";
 }
 
 updateGoal();
@@ -179,7 +178,6 @@ function addLetter(letter) {
 }
 
 function deleteLetter() {
-    console.log("here1");
     currentWord = document.getElementById("wordList").lastChild;
     numWords = document.getElementById("wordList").children.length;
     prev = game.getWords()[numWords - 1].prev;
@@ -198,6 +196,7 @@ function deleteLetter() {
                 console.log('hello');
                 numWordsEntered--;
                 recolorTitle();
+                updateInfo();
             }
             return;
         }
@@ -227,7 +226,7 @@ function enterPressed() {
 }
 function keyPressed(e) {
     //console.log(e.key);
-    if (/^[a-zA-Z]+$/.test(e.key)) {
+    if (/^[a-zA-Z]+$/.test(e.key) && e.key.length == 1) {
         addLetter(e.key.toLowerCase());
     }
 }
