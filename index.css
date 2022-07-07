@@ -9,7 +9,7 @@ body {
 
 #content {
     /* border: 1px solid red; */
-    width: 30%;
+    width: 100%;
     margin: auto;
 }
 
@@ -39,5 +39,5 @@ body {
 }
 
 #title span {
-    font-size: 77px;
+    font-size: 5vw;
 }
