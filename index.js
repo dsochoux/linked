@@ -33,6 +33,22 @@ function updateGoal() {
     g.innerHTML = game.getWords()[0].word + " ⟶ " + game.getWords()[6].word;
 }
 
+function recolorTitle() {
+    numWords = document.getElementById("wordList").children.length;
+    console.log(numWords);
+    titleLetters = document.getElementById("title").children;
+    for (var i = 0; i < numWords - 2; i++) {
+        titleLetters[i].style.color = colors[i];
+    }
+    for (var i = numWords - 2; i < 7; i++) {
+        titleLetters[i].style.color = "aliceblue";
+    }
+}
+
+function hasWon() {
+    
+}
+
 function add(word) {
     list = document.getElementById("wordList");
     const w = document.createElement("h3");
@@ -67,27 +83,29 @@ function deleteWord() {
 
 // function to print next word ▢W▢▢▢
 function printNextWord() {
-    list = document.getElementById("wordList");
-    const w = document.createElement("h3");
-    numWords = list.children.length;
-    // if (numWords == 7) {
-    //     let tb = document.getElementById("input");
-    //     tb.placeholder = "";
-    //     return;
-    // }
-    prev = game.getWords()[numWords].prev;
-    lenOfWord = game.getWords()[numWords].word.length;
-    prevWord = document.getElementById("wordList").lastChild.cloneNode(true);
-    for (var i = 0; i < lenOfWord; i++) {
-        if (i == prev) {
-            w.appendChild(prevWord.children[game.getWords()[numWords - 1].next]);
-        } else {
-            const l = document.createElement("span");
-            l.textContent = "-";
-            w.appendChild(l);
+    if (numWords < 7) {
+        list = document.getElementById("wordList");
+        const w = document.createElement("h3");
+        numWords = list.children.length;
+        // if (numWords == 7) {
+        //     let tb = document.getElementById("input");
+        //     tb.placeholder = "";
+        //     return;
+        // }
+        prev = game.getWords()[numWords].prev;
+        lenOfWord = game.getWords()[numWords].word.length;
+        prevWord = document.getElementById("wordList").lastChild.cloneNode(true);
+        for (var i = 0; i < lenOfWord; i++) {
+            if (i == prev) {
+                w.appendChild(prevWord.children[game.getWords()[numWords - 1].next]);
+            } else {
+                const l = document.createElement("span");
+                l.textContent = "-";
+                w.appendChild(l);
+            }
         }
+        list.appendChild(w);
     }
-    list.appendChild(w);
 
     //set placeholder of textbox to len of word
     // let tb = document.getElementById("input");
@@ -120,6 +138,35 @@ function addLetter(letter) {
     }
     if (numDashes == 0) {
         printNextWord();
+        recolorTitle();
+    }
+}
+
+function deleteLetter() {
+    currentWord = document.getElementById("wordList").lastChild;
+    numWords = document.getElementById("wordList").children.length;
+    prev = game.getWords()[numWords - 1].prev;
+    letters = currentWord.children;
+    for (var i = letters.length - 1; i >= 0; i--) {
+        if (i != prev && letters[i].innerHTML != "-") {
+            letters[i].innerHTML = "-";
+            letters[i].style.color = "aliceblue";
+            return;
+        }
+    }
+    if (numWords > 2) {
+        numDashes = 0;
+        for (var i = 0; i < letters.length; i++) {
+            if (letters[i].innerHTML == "-") {
+                numDashes++;
+            }
+        }
+        if (numDashes == letters.length - 1) {
+            deleteWord();
+            deleteLetter();
+            recolorTitle();
+        }
+        
     }
 }
 
@@ -136,17 +183,20 @@ function keyPressed(e) {
 }
 function keyDowned(e) {
     console.log(e.key);
+    if (e.key == "Backspace") {
+        deleteLetter();
+    }
 }
 document.addEventListener("keypress", keyPressed);
 document.addEventListener("keydown", keyDowned);
 // document.getElementById("enter").addEventListener("click", function(){
 //     //enterPressed();
 // });
-document.getElementById("delete").addEventListener("click", function(){
-    deleteWord();
-    deleteWord();
-    printNextWord();
-});
+// document.getElementById("delete").addEventListener("click", function(){
+//     deleteWord();
+//     deleteWord();
+//     printNextWord();
+// });
 
 // add starting word to list
 add(game.getWords()[0].word)

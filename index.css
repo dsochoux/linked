@@ -25,11 +25,19 @@ body {
     border-radius: 5px;
 }
 
-.control {
+/* .control {
     background-color:aliceblue;
     color: rgb(31, 31, 31);
     font-family: sans-serif;
     font-family: monospace;
     font-weight: 700;
     border-radius: 5px;
+} */
+
+#title {
+    font-size: 0px;
+}
+
+#title span {
+    font-size: 77px;
 }
