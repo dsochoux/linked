@@ -3,41 +3,9 @@ const colors = ["red", "orange", "yellow", "green", "blue", "purple"]
 const pos = ["noun", "verb", "adjective", "adverb"];
 
 numWordsEntered = 0;
+hintbutton = document.getElementById("hintbutton");
 
-class Word {
-    constructor(word, pos, prev, next) {
-        this.word = word;
-        this.pos = pos;
-        this.prev = prev;
-        this.next = next;
-    }
-}
-
-class Game {
-    constructor() {
-        this.words = [
-            // new Word("award", 0, -1, 1),
-            // new Word("winner", 0, 0, 4),
-            // new Word("hero", 0, 1, 0),
-            // new Word("sandwich", 0, 7, 1),
-            // new Word("bread", 0, 3, 0),
-            // new Word("baker", 0, 0, 3),
-            // new Word("oven", 0, 2, -1)
-            new Word("mouse", 0, -1, 1),
-            new Word("scroll", 1, 3, 2),
-            new Word("paper", 0, 4, 3),
-            new Word("essay", 0, 0, 2),
-            new Word("school", 0, 0, 1),
-            new Word("class", 0, 0, 2),
-            new Word("teach", 1, 2, -1)
-        ];
-    }
-    getWords() {
-        return this.words;
-    }
-}
-
-let game = new Game();
+let game = new Game(puzzles[0]);
 
 function updateGoal() {
     var g = document.getElementById("goal");
@@ -48,7 +16,7 @@ function recolorTitle() {
     numWords = document.getElementById("wordList").children.length;
     //console.log(numWords);
     titleLetters = document.getElementById("title").children;
-    console.log(titleLetters);
+    //console.log(titleLetters);
     for (var i = 0; i < numWordsEntered - 1; i++) {
         titleLetters[i].style.color = colors[i];
     }
@@ -111,11 +79,17 @@ function deleteWord() {
     if (list.length > 1) {
         list[list.length - 1].remove();
         updateInfo();
+        hideHint();
+        showHintButton();
     }
 }
 
 // function to print stem for next word
 function printNextWord() {
+    hideHint();
+    if (numWordsEntered == 6) {
+        hideHintButton();
+    }
     if (numWordsEntered < 7) {
         list = document.getElementById("wordList");
         const w = document.createElement("h3");
@@ -148,32 +122,34 @@ function printNextWord() {
 updateGoal();
 
 function addLetter(letter) {
-    // get ref to lastchild of wordList
-    currentWord = document.getElementById("wordList").lastChild;
-    numWords = document.getElementById("wordList").children.length;
-    next = game.getWords()[numWords - 1].next;
-    // iterate through to find the first "-", and replace with letter
-    letters = currentWord.children;
-    for (var i = 0; i < letters.length; i++) {
-        if (letters[i].innerHTML == "-") {
-            letters[i].innerHTML = letter;
-            if (i == next) {
-                letters[i].style.color = colors[numWordsEntered];
+    if (numWordsEntered < 7) {
+        // get ref to lastchild of wordList
+        currentWord = document.getElementById("wordList").lastChild;
+        numWords = document.getElementById("wordList").children.length;
+        next = game.getWords()[numWords - 1].next;
+        // iterate through to find the first "-", and replace with letter
+        letters = currentWord.children;
+        for (var i = 0; i < letters.length; i++) {
+            if (letters[i].innerHTML == "-") {
+                letters[i].innerHTML = letter;
+                if (i == next) {
+                    letters[i].style.color = colors[numWordsEntered];
+                }
+                break;
             }
-            break;
         }
-    }
-    numDashes = 0;
-    for (var i = 0; i < letters.length; i++) {
-        if (letters[i].innerHTML == "-") {
-            numDashes++;
+        numDashes = 0;
+        for (var i = 0; i < letters.length; i++) {
+            if (letters[i].innerHTML == "-") {
+                numDashes++;
+            }
         }
-    }
-    if (numDashes == 0) {
-        numWordsEntered++;
-        recolorTitle();
-        printNextWord();
-        
+        if (numDashes == 0) {
+            numWordsEntered++;
+            recolorTitle();
+            printNextWord();
+            
+        }
     }
 }
 
@@ -193,7 +169,7 @@ function deleteLetter() {
                 }
             }
             if (numDashes == 1) {
-                console.log('hello');
+                //console.log('hello');
                 numWordsEntered--;
                 recolorTitle();
                 updateInfo();
@@ -215,7 +191,7 @@ function deleteLetter() {
         }
     }
     if (numWordsEntered > 1) {
-        console.log("here2");
+        //console.log("here2");
     }
 }
 
@@ -236,6 +212,35 @@ function keyDowned(e) {
         deleteLetter();
     }
 }
+message = `
+try to connect the start and end word with 5 linking words (7 words total counting the start and the end). 
+each word relates to the previous word, and the colors indicate which letters are linked. 
+if you get a word wrong, the potential incorrect letter will be passed on to the next word, sending you down an incorrect path.
+`
+//alert(message)
+
+function showHint() {
+    hint = document.getElementById("hint");
+    hint.innerText = game.getWords()[numWordsEntered].hint;
+    hint.style.display = "block";
+    hintbutton.innerText = "hide hint";
+}
+function hideHint() {
+    hint = document.getElementById("hint");
+    hint.style.display = "none";
+    hintbutton.innerText= "show hint";
+}
+
+function showHintButton() {
+    //console.log("showing hint button");
+    //console.log(numWordsEntered);
+    hintbutton.style.display = "inline";
+}
+
+function hideHintButton() {
+    hintbutton.style.display = "none";
+}
+
 document.addEventListener("keypress", keyPressed);
 document.addEventListener("keydown", keyDowned);
 // document.getElementById("enter").addEventListener("click", function(){
@@ -246,6 +251,14 @@ document.addEventListener("keydown", keyDowned);
 //     deleteWord();
 //     printNextWord();
 // });
+
+hintbutton.addEventListener("click", ()=>{
+    if(hintbutton.innerText === "show hint"){
+        showHint();
+    }else{
+        hideHint();
+    }
+});
 
 // add starting word to list
 add(game.getWords()[0].word)
