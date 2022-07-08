@@ -6,8 +6,30 @@ const blankChar = "\u25a1"
 numWordsEntered = 0;
 hintbutton = document.getElementById("hintbutton");
 
+
 let game = new Game(puzzles[Math.floor(Math.random() * 4)]);
 //let game = new Game(puzzles[puzzles.length - 1]);
+
+msPassed = 0;
+let timer = setInterval(updateTimer, 1000);
+function msToTime(s) {
+    var ms = s % 1000;
+    s = (s - ms) / 1000;
+    var secs = s % 60;
+    s = (s - secs) / 60;
+    var mins = s % 60;
+    var hrs = (s - mins) / 60;
+    if (hrs > 0) {
+        return hrs + ':' + mins + ':' + secs;
+    } else if (secs < 10) {
+        return  mins + ':0' + secs;
+    }
+    return  mins + ':' + secs;
+}
+function updateTimer() {
+    msPassed += 1000;
+    document.getElementById("timer").innerHTML = msToTime(msPassed);
+}
 
 function updateGoal() {
     var g = document.getElementById("goal");
@@ -52,6 +74,7 @@ function hasWon() {
             return won;
         }
     }
+    clearInterval(timer);
     return won;
 }
 
