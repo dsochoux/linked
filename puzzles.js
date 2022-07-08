@@ -41,7 +41,7 @@ puzzles = [
         new Word("vehicle", 0, 4, 1, "the above is one of these, but not the other way around."),
         new Word("steer", 1, 2, 4, "this is part of operating one of the above."),
         new Word("direct", 1, 2, 5, "this and the above are synonymous but not interchangeable."),
-        new Word("straight", 2, 1, 3, "a <the above> line is this."),
+        new Word("straight", 2, 1, 3, "a line characterized by the above is this."),
         new Word("linear", 2, 4, -1, "")
     ],
     [
@@ -53,5 +53,14 @@ puzzles = [
         new Word("paste", 1, 0, 3, "if the above is step one, this is step two."),
         new Word("mixture", 0, 3, -1, "")
 
+    ],
+    [
+        new Word("accent", 0, -1, 3, ""),
+        new Word("region", 0, 1, 0, "what the above may vary by."),
+        new Word("area", 0, 1, 3, "a section of, perhaps."),
+        new Word("space", 0, 2, 0, "what the above occupies."),
+        new Word("star", 0, 0, 2, "you see many but will touch none."),
+        new Word("famous", 2, 1, 3, "be familiar to many, but not with many."),
+        new Word("popular", 2, 1, -1, "")
     ]
 ]

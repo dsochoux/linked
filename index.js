@@ -1,15 +1,21 @@
 
 const colors = ["red", "orange", "yellow", "green", "blue", "purple"]
 const pos = ["noun", "verb", "adjective", "adverb"];
+const blankChar = "\u25a1"
 
 numWordsEntered = 0;
 hintbutton = document.getElementById("hintbutton");
 
-let game = new Game(puzzles[Math.floor(Math.random() * puzzles.length)]);
+let game = new Game(puzzles[Math.floor(Math.random() * 4)]);
+//let game = new Game(puzzles[puzzles.length - 1]);
 
 function updateGoal() {
     var g = document.getElementById("goal");
-    g.innerHTML = game.getWords()[0].word + " ⟶ " + game.getWords()[6].word;
+    var sw = document.getElementById("startWord");
+    var ew = document.getElementById("endWord");
+    sw.innerHTML = game.getWords()[0].word;
+    ew.innerHTML = game.getWords()[6].word
+    //g.innerHTML = game.getWords()[0].word + " ⟶ " + game.getWords()[6].word;
 }
 
 function recolorTitle() {
@@ -26,7 +32,7 @@ function recolorTitle() {
 }
 
 function updateInfo() {
-    info = document.getElementById("info");
+    info = document.getElementById("wordinfo");
     info.innerHTML = game.getWords()[numWordsEntered].word.length + " letter " + pos[game.getWords()[numWordsEntered].pos];
 }
 
@@ -101,19 +107,21 @@ function printNextWord() {
                 w.appendChild(prevWord.children[game.getWords()[numWordsEntered - 1].next]);
             } else {
                 const l = document.createElement("span");
-                l.textContent = "-";
+                l.textContent = blankChar;
+                //l.style.border = "1px solid white"
                 w.appendChild(l);
             }
         }
+        w.style.marginTop = "-20px";
         list.appendChild(w);
         updateInfo();
     } else {
         // all words have been entered, time to see if correct
         if (hasWon()) {
-            info = document.getElementById("info");
+            info = document.getElementById("wordinfo");
             info.innerHTML = "correctly linked!";
         } else {
-            info = document.getElementById("info");
+            info = document.getElementById("wordinfo");
             info.innerHTML = "a link is wrong, try again.";
         }
     }
@@ -130,7 +138,7 @@ function addLetter(letter) {
         // iterate through to find the first "-", and replace with letter
         letters = currentWord.children;
         for (var i = 0; i < letters.length; i++) {
-            if (letters[i].innerHTML == "-") {
+            if (letters[i].innerHTML == blankChar) {
                 letters[i].innerHTML = letter;
                 if (i == next) {
                     letters[i].style.color = colors[numWordsEntered];
@@ -140,7 +148,7 @@ function addLetter(letter) {
         }
         numDashes = 0;
         for (var i = 0; i < letters.length; i++) {
-            if (letters[i].innerHTML == "-") {
+            if (letters[i].innerHTML == blankChar) {
                 numDashes++;
             }
         }
@@ -159,12 +167,12 @@ function deleteLetter() {
     prev = game.getWords()[numWords - 1].prev;
     letters = currentWord.children;
     for (var i = letters.length - 1; i >= 0; i--) {
-        if (i != prev && letters[i].innerHTML != "-") {
-            letters[i].innerHTML = "-";
+        if (i != prev && letters[i].innerHTML != blankChar) {
+            letters[i].innerHTML = blankChar;
             letters[i].style.color = "aliceblue";
             numDashes = 0;
             for (var i = 0; i < letters.length; i++) {
-                if (letters[i].innerHTML == "-") {
+                if (letters[i].innerHTML == blankChar) {
                     numDashes++;
                 }
             }
@@ -180,7 +188,7 @@ function deleteLetter() {
     if (numWordsEntered > 1) {
         numDashes = 0;
         for (var i = 0; i < letters.length; i++) {
-            if (letters[i].innerHTML == "-") {
+            if (letters[i].innerHTML == blankChar) {
                 numDashes++;
             }
         }
@@ -214,8 +222,10 @@ function keyDowned(e) {
 }
 message = `
 try to connect the start and end word with 5 linking words (7 words total counting the start and the end). 
-each word relates to the previous word, and the colors indicate which letters are linked. 
-if you get a word wrong, the potential incorrect letter will be passed on to the next word, sending you down an incorrect path.
+each word relates to the previous word in some way, and the colors indicate which letters are linked. 
+if you get a word wrong, the potentially incorrect letter will be passed on to the next word, sending you down an incorrect path.
+in order to win, you must get all 5 words correct.
+good luck!
 `
 //alert(message)
 
@@ -259,6 +269,10 @@ hintbutton.addEventListener("click", ()=>{
         hideHint();
     }
 });
+
+document.getElementById("info").addEventListener("click", function() {
+    alert(message);
+})
 
 // add starting word to list
 add(game.getWords()[0].word)

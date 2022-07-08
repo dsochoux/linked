@@ -39,5 +39,18 @@ body {
 }
 
 #title span {
-    font-size: 5vw;
+    font-size: 4vw;
+}
+
+#hintbutton {
+    background-color: aliceblue;
+    border: none;
+    border-radius: 5px;
+    width: 100px;
+    color: rgb(31, 31, 31);
+    font-weight: bold;
+}
+
+#info:hover {
+    text-decoration:underline;
 }
