@@ -294,7 +294,7 @@ hintbutton.addEventListener("click", ()=>{
 });
 
 document.getElementById("info").addEventListener("click", function() {
-    alert(message);
+    //alert(message);
 });
 
 function pauseGame() {

@@ -54,7 +54,7 @@ body {
 }
 
 #info:hover {
-    text-decoration:underline;
+    /* text-decoration:underline; */
 }
 
 #timer:hover {
