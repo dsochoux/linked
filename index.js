@@ -7,8 +7,8 @@ numWordsEntered = 0;
 hintbutton = document.getElementById("hintbutton");
 
 
-let game = new Game(puzzles[Math.floor(Math.random() * 4)]);
-//let game = new Game(puzzles[puzzles.length - 1]);
+//let game = new Game(puzzles[Math.floor(Math.random() * 4)]);
+let game = new Game(puzzles[puzzles.length - 1]);
 
 msPassed = 0;
 let timer;
