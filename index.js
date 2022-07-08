@@ -306,7 +306,9 @@ function pauseGame() {
 function resumeGame() {
     g = document.getElementById("gameContent");
     g.style.display = "block";
-    timer = setInterval(updateTimer, 1000);
+    if (!hasWon()) {
+        timer = setInterval(updateTimer, 1000);
+    }
     document.getElementById("timerinstructions").style.display = "none";
 }
 
