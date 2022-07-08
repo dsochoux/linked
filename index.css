@@ -56,3 +56,8 @@ body {
 #info:hover {
     text-decoration:underline;
 }
+
+#timer:hover {
+    font-weight: bold;
+    text-decoration: underline;
+}

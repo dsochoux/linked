@@ -11,7 +11,7 @@ let game = new Game(puzzles[Math.floor(Math.random() * 4)]);
 //let game = new Game(puzzles[puzzles.length - 1]);
 
 msPassed = 0;
-let timer = setInterval(updateTimer, 1000);
+let timer;
 function msToTime(s) {
     var ms = s % 1000;
     s = (s - ms) / 1000;
@@ -295,8 +295,33 @@ hintbutton.addEventListener("click", ()=>{
 
 document.getElementById("info").addEventListener("click", function() {
     alert(message);
-})
+});
 
+function pauseGame() {
+    g = document.getElementById("gameContent");
+    g.style.display = "none";
+    clearInterval(timer);
+    document.getElementById("timerinstructions").style.display = "block";
+}
+function resumeGame() {
+    g = document.getElementById("gameContent");
+    g.style.display = "block";
+    timer = setInterval(updateTimer, 1000);
+    document.getElementById("timerinstructions").style.display = "none";
+}
+
+document.getElementById("timer").addEventListener("click", function() {
+    g = document.getElementById("gameContent");
+    if (g.style.display == "none") {
+        // resume
+        resumeGame();
+    } else {
+        // pause
+        pauseGame();
+    }
+});
+
+//pauseGame();
 // add starting word to list
 add(game.getWords()[0].word)
 // add second word to list

@@ -32,13 +32,16 @@
             <span id="endWord"></span>
         </h2>
         <p id="timer" style="font-size: 1.2rem;">0:00</p>
-        <div id="wordList">
+        <div id="gameContent" style="display: none;">
+            <div id="wordList">
+            </div>
+            <div style="font-size: 1rem; margin-top:-30px;">
+                <p id="wordinfo">6 letter noun</p>
+                <p id="hint" style="display:none;">this is a hint!</p>
+                <button id="hintbutton">show hint</button>
+            </div>
         </div>
-        <div style="font-size: 1rem; margin-top:-30px;">
-            <p id="wordinfo">6 letter noun</p>
-            <p id="hint" style="display:none;">this is a hint!</p>
-            <button id="hintbutton">show hint</button>
-        </div>
+        <p id="timerinstructions" style="display:block; font-size:1rem">click the timer to play/pause<br>click the 'i' in linked for instructions</p>
         <!-- <input type="text" id="input">
         <br/> -->
         <!-- <button id="enter" class="control">enter</button> -->
